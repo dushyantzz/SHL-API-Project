@@ -1,0 +1,10 @@
+__pycache__
+*.pyc
+.git
+.env
+.pytest_cache
+tests/
+GenAI_SampleConversations/
+*.md
+.dockerignore
+docker-compose.yml
