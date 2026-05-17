@@ -15,11 +15,8 @@ class Settings(BaseSettings):
         case_sensitive=False,
     )
 
-    # Azure OpenAI (required)
-    azure_openai_api_key: str
-    azure_openai_endpoint: str
-    azure_openai_api_version: str = "2024-08-01-preview"
-    azure_openai_deployment_name: str
+    gemini_api_key: str
+    gemini_model: str = "gemini-3.1-flash-lite"
 
     catalog_path: Path = Path("shl_product_catalog.json")
     max_recommendations: int = 10

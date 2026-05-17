@@ -8,7 +8,7 @@ from typing import AsyncIterator
 
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import JSONResponse
+from fastapi.responses import JSONResponse, RedirectResponse
 
 from app.config import get_settings
 from app.models.request import ChatRequest
@@ -41,10 +41,8 @@ async def lifespan(app: FastAPI) -> AsyncIterator[None]:
     )
 
     llm_service = LLMService(
-        api_key=settings.azure_openai_api_key,
-        azure_endpoint=settings.azure_openai_endpoint,
-        api_version=settings.azure_openai_api_version,
-        deployment=settings.azure_openai_deployment_name,
+        api_key=settings.gemini_api_key,
+        model=settings.gemini_model,
     )
 
     agent = AgentOrchestrator(
@@ -54,9 +52,7 @@ async def lifespan(app: FastAPI) -> AsyncIterator[None]:
         max_recommendations=settings.max_recommendations,
     )
 
-    logger.info(
-        "Agent ready (deployment=%s)", settings.azure_openai_deployment_name
-    )
+    logger.info("Agent ready (model=%s)", settings.gemini_model)
     yield
 
     if llm_service:
@@ -101,6 +97,12 @@ async def generic_error_handler(request: Request, exc: Exception) -> JSONRespons
 
 
 # ── Endpoints ─────────────────────────────────────────────────────────
+
+@app.get("/", include_in_schema=False)
+async def root() -> RedirectResponse:
+    """Redirect browser visits to interactive API docs."""
+    return RedirectResponse(url="/docs")
+
 
 @app.get("/health", tags=["system"])
 async def health_check() -> dict[str, str]:

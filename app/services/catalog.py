@@ -21,8 +21,9 @@ KEYS_TO_TYPE_CODE: dict[str, str] = {
     "Ability & Aptitude": "A",
     "Competencies": "C",
     "Development & 360": "D",
-    "Biodata & Situational Judgment": "S",
-    "Assessment Exercises": "B",
+    "Biodata & Situational Judgment": "B",
+    "Assessment Exercises": "E",
+    "Simulations": "S",
 }
 
 _DURATION_RE = re.compile(r"(\d+)\s*(?:minutes?)?", re.IGNORECASE)

@@ -27,10 +27,8 @@ def catalog(catalog_path: Path) -> CatalogStore:
 @pytest.fixture()
 def client():
     """TestClient with mocked LLM to avoid real API calls in CI."""
-    os.environ["AZURE_OPENAI_API_KEY"] = "test-azure-key"
-    os.environ["AZURE_OPENAI_ENDPOINT"] = "https://test.openai.azure.com/"
-    os.environ["AZURE_OPENAI_API_VERSION"] = "2024-08-01-preview"
-    os.environ["AZURE_OPENAI_DEPLOYMENT_NAME"] = "gpt-4o-mini"
+    os.environ["GEMINI_API_KEY"] = "test-gemini-key"
+    os.environ["GEMINI_MODEL"] = "gemini-3.1-flash-lite"
 
     mock_response = {
         "reply": "Here are some assessments for Java developers.",

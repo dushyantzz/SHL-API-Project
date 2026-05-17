@@ -33,6 +33,25 @@ class TestTestTypeDerivation:
     def test_unknown_key(self) -> None:
         assert _derive_test_type(["Some Unknown Key"]) == "K"
 
+    def test_simulations_only(self) -> None:
+        assert _derive_test_type(["Simulations"]) == "S"
+
+    def test_knowledge_and_simulations(self) -> None:
+        assert _derive_test_type(["Knowledge & Skills", "Simulations"]) == "K,S"
+
+    def test_biodata_and_simulations(self) -> None:
+        assert _derive_test_type(
+            ["Biodata & Situational Judgment", "Simulations"]
+        ) == "B,S"
+
+    def test_assessment_exercises_only(self) -> None:
+        assert _derive_test_type(["Assessment Exercises"]) == "E"
+
+    def test_biodata_and_assessment_exercises_distinct(self) -> None:
+        assert _derive_test_type(
+            ["Biodata & Situational Judgment", "Assessment Exercises"]
+        ) == "B,E"
+
 
 class TestCatalogLoading:
     def test_loads_all_assessments(self, catalog: CatalogStore) -> None:
@@ -64,6 +83,13 @@ class TestCatalogLookup:
         result = catalog.get_by_name(".NET Framework 4.5")
         assert result is not None
         assert result.entity_id == "3827"
+
+    def test_microsoft_excel_365_name_and_type(self, catalog: CatalogStore) -> None:
+        result = catalog.get_by_id("4207")
+        assert result is not None
+        assert result.name == "Microsoft Excel 365 (New)"
+        assert result.test_type == "K,S"
+        assert catalog.find_by_name_substring("Microsoft Excel 365")
 
     def test_get_by_name_case_insensitive(self, catalog: CatalogStore) -> None:
         result = catalog.get_by_name(".net framework 4.5")

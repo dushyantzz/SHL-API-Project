@@ -12,7 +12,7 @@ class Recommendation(BaseModel):
         ...,
         description="Type code(s) derived from catalog keys: "
         "K=Knowledge, P=Personality, A=Ability, C=Competencies, "
-        "D=Development, S=Situational Judgment, B=Assessment Exercises",
+        "D=Development, B=Biodata/SJT, E=Assessment Exercises, S=Simulations",
     )
 
 
